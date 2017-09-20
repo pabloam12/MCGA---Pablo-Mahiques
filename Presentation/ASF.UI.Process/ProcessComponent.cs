@@ -86,7 +86,7 @@ namespace ASF.UI.Process
 
         public static T HttpPost<T>(string path, T value, string mediaType)
         {
-            
+
             var pathAndQuery = path.EndsWith("/") ? path : path + "/";
             using (var client = new HttpClient())
             {
