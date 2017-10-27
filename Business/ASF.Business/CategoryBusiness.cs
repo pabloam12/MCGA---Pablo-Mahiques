@@ -17,7 +17,7 @@ namespace ASF.Business
     /// <summary>
     /// CategoryBusiness business component.
     /// </summary>
-    public class CategoryBusiness
+    public class CategoryBusiness : AuditBusiness
     {
         /// <summary>
         /// Add method. 
@@ -27,6 +27,10 @@ namespace ASF.Business
         public Category Add(Category category)
         {
             var categoryDac = new CategoryDac();
+            category.CreatedBy = CreatedBy;
+            category.CreatedOn = CreatedOn;
+            category.ChangedBy = ChangedBy;
+            category.ChangedOn = ChangedOn;
             return categoryDac.Create(category);
         }
 

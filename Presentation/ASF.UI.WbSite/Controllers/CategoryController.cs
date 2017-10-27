@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using ASF.UI.Process;
 using ASF.Entities;
+using ASF.UI.WbSite.Services.Cache;
 
 namespace ASF.UI.WbSite.Controllers
 {
@@ -13,8 +14,10 @@ namespace ASF.UI.WbSite.Controllers
         // GET: Category
         public ActionResult Index()
         {
-            var cp = new CategoryProcess();
-            return View(cp.SelectList());
+            //var cp = new CategoryProcess();
+            var lista = DataCache.Instance.CategoryList();
+            //return View(cp.SelectList());
+            return View(lista);
         }
 
         public ActionResult Create()
@@ -22,11 +25,27 @@ namespace ASF.UI.WbSite.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Create(Category category)
+        public ActionResult Create(Category categroy)
+        {
+            try
+            {
+                var cp = new CategoryProcess();
+                cp.insertCategory(categroy);
+                DataCache.Instance.CategoryListRemove();
+            
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        public ActionResult Details(int id)
         {
             var cp = new CategoryProcess();
-            cp.insertCategory(category);
-            return RedirectToAction("Index");
+
+            return View(cp.findCategory(id));
         }
 
         public ActionResult Edit(int id)
@@ -38,9 +57,17 @@ namespace ASF.UI.WbSite.Controllers
         [HttpPost]
         public ActionResult Edit(Category category)
         {
-            var cp = new CategoryProcess();
-            cp.editCategory(category);
-            return RedirectToAction("Index");
+            try
+            {
+                var cp = new CategoryProcess();
+                cp.editCategory(category);
+                DataCache.Instance.CategoryListRemove();
+                return RedirectToAction("Index");
+             }
+            catch
+            {
+                return View();
+            }
         }
 
         public ActionResult Delete(int id)
@@ -52,9 +79,17 @@ namespace ASF.UI.WbSite.Controllers
         [HttpPost]
         public ActionResult Delete(int id, Category category)
         {
-            var cp = new CategoryProcess();
-            cp.deleteCategory(id);
-            return RedirectToAction("Index");
+            try
+            {
+                var cp = new CategoryProcess();
+                cp.deleteCategory(id);
+                DataCache.Instance.CategoryListRemove();
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
         }
     }
 }

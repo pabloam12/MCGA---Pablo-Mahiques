@@ -19,7 +19,18 @@ namespace ASF.Services.Contracts
     public class FindResponse
     {
         [DataMember]
-        public Category Result { get; set; }
+        public Category ResultCategory { get; set; }
+
+        [DataMember]
+        public Country ResultCountry { get; set; }
+
+        [DataMember]
+        public Dealer ResultDealer { get; set; }
+
+        [DataMember]
+        public Order ResultOrder { get; set; }
+        [DataMember]
+        public Client ResultClient { get; set; }
     }
 }
 

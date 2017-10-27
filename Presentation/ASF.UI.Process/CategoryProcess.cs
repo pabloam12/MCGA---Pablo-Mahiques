@@ -22,11 +22,12 @@ namespace ASF.UI.Process
         public List<Category> SelectList()
         {
             var response = HttpGet<AllResponse>("rest/Category/All", new Dictionary<string, object>(), MediaType.Json);
-            return response.Result;
+            return response.ResultCategory;
         }
 
         public void insertCategory(Category category)
         {
+            
             ProcessComponent.HttpPost<Category>("rest/Category/Add", category, MediaType.Json);
         }
 
@@ -35,7 +36,7 @@ namespace ASF.UI.Process
             var dic = new Dictionary<string, object>();
             dic.Add("Id", id);
             var response = HttpGet<FindResponse>("rest/Category/Find", dic, MediaType.Json);
-            return response.Result;
+            return response.ResultCategory;
 
         }
 
